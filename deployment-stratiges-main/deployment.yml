@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+        name: todoapp
+        labels:
+            app: todoapp
+spec:
+    replicas: 8
+    strategy: 
+        type: RollingUpdate
+        rollingUpdate:
+          maxSurge: 2   # Maximum number of pods that can be created over the desired replicas
+          maxUnavailable: 2  # Maximum number of pods that can be unavailable during the update 
+    template:
+          metadata: 
+                name: todoapp 
+                labels:
+                      app: todoapp
+          spec:
+              containers:
+                  - name: http
+                    image: swapnil0078/student:micro
+                    ports:
+                        - name: http
+                          containerPort: 8080
+                          protocol: TCP      
+    selector:
+        matchLabels:
+            app: todoapp
